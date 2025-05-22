@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model UserAuth {
+  userID     Int           @id @default(autoincrement())
+  email      String        @unique
+  password   String
+  role       String        @default("user")
+  enabled    Boolean       @default(true)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  profile    UserProfile?
+  activities Activity[]    @relation("CreatedActivities")
+  participations Participation[]
+}
+
+model UserProfile {
+  profileID  Int       @id @default(autoincrement())
+  userID     Int       @unique
+  firstName  String
+  lastName   String
+  dateOfBirth DateTime
+  gender     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user       UserAuth  @relation(fields: [userID], references: [userID])
+}
+
+model Activity {
+  activityID     Int           @id @default(autoincrement())
+  title          String
+  description    String
+  startDate      DateTime
+  endDate        DateTime
+  location       String
+  maxParticipants Int
+  reward         String
+  createdBy      Int
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  creator        UserAuth      @relation("CreatedActivities", fields: [createdBy], references: [userID])
+  participations Participation[] 
+  images         Image[] 
+}
+
+model Participation {
+  participationID Int        @id @default(autoincrement())
+  userID          Int
+  activityID      Int
+
+  phoneNumber     String
+  whyParticipate  String
+  healthConditions String
+  emergencyContact String
+  status          String     @default("pending")// pending, approved, rejected
+
+  joinedAt        DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  user            UserAuth   @relation(fields: [userID], references: [userID])
+  activity        Activity   @relation(fields: [activityID], references: [activityID], onDelete: Cascade)
+}
+
+model Image {
+  imageID     Int      @id @default(autoincrement())
+  activityID  Int
+  assetID     String
+  publicID    String
+  url         String
+  secureUrl   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  activity    Activity @relation(fields: [activityID], references: [activityID],onDelete: Cascade)
+}
