@@ -14,9 +14,4 @@ readdirSync('./routes').map((c)=> app.use('/api',require('./routes/'+c)))
 
 
 
-
-
-
-
-
 app.listen(3000,()=> console.log('Server is running on port 3000'))
