@@ -1,12 +1,16 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../layouts/Layout";
+import LayoutAdmin from "../layouts/LayoutAdmin";
 import Home from "../pages/user/Home";
-import Register from "../pages/user/Register";
-import Login from "../pages/user/Login";
 import Apply from "../pages/user/Apply";
 import Detail from "../pages/user/Detail";
 import Status from "../pages/user/Status";
+import Dashboard from "../pages/admin/Dashboard";
+import Applicant from "../pages/admin/Applicant";
+import CreateActivity from "../pages/admin/CreateActivity";
+import EditActivity from "../pages/admin/EditActivity";
+import ProtectRouteAdmin from "./ProtectRouteAdmin";
 
 const router = createBrowserRouter([
   {
@@ -14,11 +18,19 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "register", element: <Register /> },
-      { path: "login", element: <Login /> },
       { path: "apply", element: <Apply /> },
       { path: "detail", element: <Detail /> },
       { path: "status", element: <Status /> },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <ProtectRouteAdmin element={<LayoutAdmin />} />,
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "Applicant", element: <Applicant /> },
+      { path: "CreateActivity", element: <CreateActivity /> },
+      { path: "EditActivity/:id", element: <EditActivity /> },
     ],
   },
 ]);

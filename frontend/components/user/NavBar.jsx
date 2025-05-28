@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Register from "../../pages/user/Register";
+import Login from "../../pages/user/Login";
+import { AnimatePresence } from "framer-motion";
 
 const NavBar = () => {
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   return (
     <header>
       <nav className="flex items-center justify-between p-12 px-28">
@@ -8,16 +14,24 @@ const NavBar = () => {
         <div className="flex items-center space-x-4">
           <button
             className="border-1 border-[#3C9AFB] flex items-center justify-center p-2.75 px-5  rounded-lg font-light cursor-pointer"
-            // onClick={() => handleClick("login")}
+            onClick={() => setIsLoginOpen(true)}
           >
             เข้าสู่ระบบ
           </button>
+          <AnimatePresence>
+            <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+          </AnimatePresence>
+
           <button
             className="bg-[#7DB5E3] flex items-center justify-center p-2.75 px-5  rounded-lg font-light cursor-pointer"
-            // onClick={() => handleClick("register")}
+            onClick={() => setIsRegisterOpen(true)}
           >
             สร้างบัญชี
           </button>
+          <Register
+            isOpen={isRegisterOpen}
+            onClose={() => setIsRegisterOpen(false)}
+          />
         </div>
       </nav>
       <div className="flex max-h-[250px] justify-center items-center">
