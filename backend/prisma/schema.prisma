@@ -50,7 +50,7 @@ model UserProfile {
 model Activity {
   activityID      Int         @id @default(autoincrement())
   title           String
-  description     String
+  description     String      @db.Text
   startDate       DateTime
   endDate         DateTime
   location        String
@@ -71,7 +71,7 @@ model Participation {
   userID          Int
   activityID      Int
 
-  whyParticipate   String
+  whyParticipate   String @db.Text
   emergencyContact String
   status           String @default("pending") // pending, approved, rejected
 

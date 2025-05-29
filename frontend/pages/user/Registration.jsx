@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import LineIcon from "../../src/assets/lineIcon";
 import FacebookIcon from "../../src/assets/facebookIcon";
 import Button from "../../src/assets/Button";
+import useJoinjoyStore from "../../global-store/joinjoy-store";
 import ActivityCard from "../../components/user/ActivityCard";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 const Registration = () => {
-   const { id } = useParams();
+  const token = useJoinjoyStore((state)=>state.token)
+  const {id} = useParams()
+  const [form, setForm] = useState({
+    whyParticipate: "",
+    emergencyContact: "",
+  });
+
+  const handleOnChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+   
+    try {
+      const res = await axios.post("http://localhost:3000/api/activities/"+id+"/join", form,{
+        headers:{
+            Authorization:`bearer ${token}`
+        }
+    });
+      console.log(res);
+      toast.success(res.data.message);
+    } catch (err) {
+      const errMsg = err.response?.data?.message;
+      const serverError = err.message;
+      if (errMsg) {
+        toast.error(errMsg);
+      } else if (serverError) {
+        toast.error(serverError);
+      }
+
+      console.log(err);
+    }
+  };
 
   return (
     <div className="max-w-330 p-5 flex flex-col m-auto mt-10 mb-40">
@@ -14,17 +53,32 @@ const Registration = () => {
           <p className="text-4xl font-semibold text-[#383C3E]">
             สมัครเป็นจิตอาสา
           </p>
-          <form  className="space-y-1 flex flex-col">
-            <label className="text-sm font-light" htmlFor="reason">
+          <form onSubmit={handleSubmit} className="space-y-1 flex flex-col">
+            <label className="text-sm font-light" htmlFor="whyParticipate">
               เหตุผลที่อยากเข้าร่วม
             </label>
             <textarea
+              onChange={handleOnChange}
               className="border-1 border-[#A6A6A6] p-2 ring-0 outline-0 rounded-sm"
               rows={10}
-              name="reason"
-              id="reason"
+              name="whyParticipate"
+              id="whyParticipate"
               required
             ></textarea>
+            <label
+              className="text-sm font-light mt-5"
+              htmlFor="emergencyContact"
+            >
+              เบอร์โทรฉุกเฉิน
+            </label>
+            <input
+              onChange={handleOnChange}
+              className="border-1 border-[#A6A6A6] p-2 ring-0 outline-0 rounded-sm"
+              name="emergencyContact"
+              id="emergencyContact"
+              type="number"
+              required
+            />
             <Button
               type="submit"
               className="bg-[#3C5D9C] text-white mt-10.75 p-4 rounded-2xl"
@@ -45,7 +99,7 @@ const Registration = () => {
           </form>
         </div>
         <div className="flex-1 flex flex-col space-y-5">
-          <ActivityCard  />
+          <ActivityCard />
           <div className="space-y-7">
             <div className="text-[#383C3E]">
               <p className="font-semibold my-2">สิ่งที่จะได้รับจากกิจกรรมนี้</p>
