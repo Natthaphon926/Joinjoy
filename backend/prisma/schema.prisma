@@ -13,79 +13,84 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model UserAuth {
-  userID     Int           @id @default(autoincrement())
-  email      String        @unique
-  password   String
-  role       String        @default("user")
-  enabled    Boolean       @default(true)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+enum EventStatus {
+  ACTIVE
+  EXPIRED
+}
 
-  profile    UserProfile?
-  activities Activity[]    @relation("CreatedActivities")
+model UserAuth {
+  userID    Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("user")
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile        UserProfile?
+  activities     Activity[]      @relation("CreatedActivities")
   participations Participation[]
 }
 
 model UserProfile {
-  profileID  Int       @id @default(autoincrement())
-  userID     Int       @unique
-  firstName  String
-  lastName   String
-  dateOfBirth DateTime
-  gender     String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  profileID        Int      @id @default(autoincrement())
+  userID           Int      @unique
+  firstName        String
+  lastName         String
+  phoneNumber      String   @default("unknown")
+  dateOfBirth      DateTime
+  gender           String
+  healthConditions String?  @default("none")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
-  user       UserAuth  @relation(fields: [userID], references: [userID])
+  user UserAuth @relation(fields: [userID], references: [userID])
 }
 
 model Activity {
-  activityID     Int           @id @default(autoincrement())
-  title          String
-  description    String
-  startDate      DateTime
-  endDate        DateTime
-  location       String
+  activityID      Int         @id @default(autoincrement())
+  title           String
+  description     String
+  startDate       DateTime
+  endDate         DateTime
+  location        String
   maxParticipants Int
-  reward         String
-  createdBy      Int
+  reward          String
+  createdBy       Int
+  status          EventStatus @default(ACTIVE)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  creator        UserAuth      @relation("CreatedActivities", fields: [createdBy], references: [userID])
-  participations Participation[] 
-  images         Image[] 
+  creator        UserAuth        @relation("CreatedActivities", fields: [createdBy], references: [userID])
+  participations Participation[]
+  images         Image[]
 }
 
 model Participation {
-  participationID Int        @id @default(autoincrement())
+  participationID Int @id @default(autoincrement())
   userID          Int
   activityID      Int
 
-  phoneNumber     String
-  whyParticipate  String
-  healthConditions String
+  whyParticipate   String
   emergencyContact String
-  status          String     @default("pending")// pending, approved, rejected
+  status           String @default("pending") // pending, approved, rejected
 
-  joinedAt        DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  joinedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user            UserAuth   @relation(fields: [userID], references: [userID])
-  activity        Activity   @relation(fields: [activityID], references: [activityID], onDelete: Cascade)
+  user     UserAuth @relation(fields: [userID], references: [userID])
+  activity Activity @relation(fields: [activityID], references: [activityID], onDelete: Cascade)
 }
 
 model Image {
-  imageID     Int      @id @default(autoincrement())
-  activityID  Int
-  assetID     String
-  publicID    String
-  url         String
-  secureUrl   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  imageID    Int      @id @default(autoincrement())
+  activityID Int
+  assetID    String
+  publicID   String
+  url        String
+  secureUrl  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  activity    Activity @relation(fields: [activityID], references: [activityID],onDelete: Cascade)
+  activity Activity @relation(fields: [activityID], references: [activityID], onDelete: Cascade)
 }

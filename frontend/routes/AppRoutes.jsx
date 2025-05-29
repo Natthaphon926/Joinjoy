@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../layouts/Layout";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import Home from "../pages/user/Home";
-import Apply from "../pages/user/Apply";
+import Registration from "../pages/user/Registration";
 import Detail from "../pages/user/Detail";
 import Status from "../pages/user/Status";
 import Dashboard from "../pages/admin/Dashboard";
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "apply", element: <Apply /> },
-      { path: "detail", element: <Detail /> },
+      { path: "registration/:id", element: <Registration /> },
+      { path: "detail/:id", element: <Detail /> },
       { path: "status", element: <Status /> },
     ],
   },

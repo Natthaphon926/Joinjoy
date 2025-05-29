@@ -71,6 +71,7 @@ exports.getAllActivities = async (req, res) => {
       location: activity.location,
       maxParticipants: activity.maxParticipants,
       reward: activity.reward,
+      status: activity.status,
       creator: {
         firstName: activity.creator?.profile?.firstName || '',
         lastName: activity.creator?.profile?.lastName || '',
