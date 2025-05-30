@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 exports.register = async (req, res) => {
     try {
-        const { email, password, firstName, lastName, dateOfBirth, gender } = req.body
+        const { email, password, firstName, lastName, dateOfBirth, gender , healthConditions , phoneNumber } = req.body
 
         if (!email) {
             return res.status(400).json({ massage: 'Email is require' })
@@ -51,6 +51,8 @@ exports.register = async (req, res) => {
                 lastName,
                 dateOfBirth: new Date(dateOfBirth),
                 gender,
+                healthConditions,
+                phoneNumber
             },
         });
 

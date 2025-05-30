@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const Register = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+  const navigate = useNavigate();
+  
 
   const [form, setForm] = useState({
     email: "",
@@ -15,7 +16,10 @@ const Register = ({ isOpen, onClose }) => {
     lastName: "",
     dateOfBirth: "",
     gender: "",
+    healthConditions: "",
+    phoneNumber: "",
   });
+  console.log(form)
 
   const handleOnChange = (e) => {
     setForm({
@@ -34,6 +38,7 @@ const Register = ({ isOpen, onClose }) => {
       const res = await axios.post("http://localhost:3000/api/register", form);
       console.log(res);
       toast.success(res.data);
+      navigate('/');
     } catch (err) {
       const errMsg = err.response?.data?.message;
       const serverError = err.message;
@@ -45,6 +50,8 @@ const Register = ({ isOpen, onClose }) => {
       console.log(err);
     }
   };
+  
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
@@ -132,6 +139,38 @@ const Register = ({ isOpen, onClose }) => {
                       required
                     />
                   </div>
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label className="text-sm" htmlFor="phoneNumber">
+                    เบอร์โทรศัพท์
+                  </label>
+                  <input
+                    name="phoneNumber"
+                    placeholder="กรอกเบอร์โทรศัพท์"
+                    type="text"
+                    id="phoneNumber"
+                    pattern="\d*"
+                    inputMode="numeric"
+                    maxLength={9}
+                    className="flex items-center p-3 px-4 rounded-lg bg-white border-[1.5px] border-[#E2E8F0] outline-0 ring-0 placeholder:text-[#94A3B8] placeholder:font-light placeholder:text-sm"
+                    onChange={handleOnChange}
+                    required
+                  />
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <label className="text-sm" htmlFor="healthConditions">
+                    โรคประจําตัว
+                  </label>
+                  <input
+                    name="healthConditions"
+                    placeholder="กรอกโรคประจําตัว"
+                    type="text"
+                    id="healthConditions"
+                    className="flex items-center p-3 px-4 rounded-lg bg-white border-[1.5px] border-[#E2E8F0] outline-0 ring-0 placeholder:text-[#94A3B8] placeholder:font-light placeholder:text-sm"
+                    onChange={handleOnChange}
+                    required
+                  />
                 </div>
 
                 {/* Email */}

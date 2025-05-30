@@ -5,17 +5,40 @@ import { cn } from "../../src/assets/ีutils/tw-merge";
 import Button, { ButtonVariant } from "../../src/assets/Button";
 import Pagination from "../common/Pagination";
 import { statusMapping } from "../../src/assets/ีutils/statusMapping";
+import useJoinjoyStore from "../../global-store/joinjoy-store";
+import axios from "axios";
 
 const CollapsibleVolunteerCard = ({
   activityID,
+  participationID,
   title,
   location,
   capacity,
-  participants,
+  participants: initialParticipants,
   date,
   status,
 }) => {
   const [open, setOpen] = useState(false);
+  const [participants, setParticipants] = useState(initialParticipants);
+  const token = useJoinjoyStore((state) => state.token);
+
+  const updateParticipantStatus = async (participationID, index, newStatus) => {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/participations/${participationID}/status`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // อัปเดต UI ทันที
+      setParticipants((prev) =>
+        prev.map((p, i) => (i === index ? { ...p, status: newStatus } : p))
+      );
+    } catch (err) {
+      console.error(err);
+      alert("เปลี่ยนสถานะไม่สำเร็จ");
+    }
+  };
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
       <Collapsible.Trigger asChild>
@@ -61,7 +84,7 @@ const CollapsibleVolunteerCard = ({
         <div className="border border-[#06060680] p-4 rounded-lg border-t-0 rounded-t-none">
           <div className="flex flex-col">
             <div className="relative min-w-0 w-full overflow-x-scroll rounded-lg border border-gray-200">
-              <table className="w-max text-sm">
+              <table className="w-full text-sm">
                 <thead className="bg-gray-100 text-left">
                   <tr className="border-b border-gray-200">
                     <th className="px-6 py-5 font-semibold">ลำดับ</th>
@@ -106,12 +129,26 @@ const CollapsibleVolunteerCard = ({
                               <Button
                                 className="border-[#3CBC59]"
                                 variant={ButtonVariant.OUTLINE}
+                                onClick={() =>
+                                  updateParticipantStatus(
+                                    participant.participationID, // <-- id ชัดเจน
+                                    i, // <-- index
+                                    "approved"
+                                  )
+                                }
                               >
                                 อนุมัติ
                               </Button>
                               <Button
                                 className="border-[#E72E2E]"
                                 variant={ButtonVariant.OUTLINE}
+                                onClick={() =>
+                                  updateParticipantStatus(
+                                    participant.participationID,
+                                    i,
+                                    "rejected"
+                                  )
+                                }
                               >
                                 ไม่อนุมัติ
                               </Button>

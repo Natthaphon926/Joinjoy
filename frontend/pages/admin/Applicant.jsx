@@ -20,6 +20,7 @@ const Applicant = () => {
 
         data.forEach((item) => {
           const {
+            participationID,
             activityID,
             activityName,
             startDate,
@@ -33,6 +34,7 @@ const Applicant = () => {
 
           if (!grouped[activityID]) {
             grouped[activityID] = {
+              participationID,
               activityID,
               title: activityName,
               date: new Date(startDate).toLocaleString("th-TH", {
@@ -51,6 +53,7 @@ const Applicant = () => {
           }
 
           grouped[activityID].participants.push({
+            participationID,
             firstName: user.firstName,
             lastName: user.lastName,
             gender: user.gender === "male" ? "ชาย" : "หญิง",
@@ -80,7 +83,8 @@ const Applicant = () => {
       <div className="relative h-full w-full p-4 min-h-0 overflow-y-scroll bg-white rounded-md flex space-y-4 flex-col">
         {registrationList.map((item, i) => (
           <CollapsibleVolunteerCard
-            key={item.activityID || i}
+            key={item.participationID || i}
+            participationID={item.participationID}
             activityID={item.activityID} // ✅ เพิ่ม
             title={item.title}
             location={item.location}

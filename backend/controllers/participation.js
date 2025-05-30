@@ -77,6 +77,7 @@ exports.getAllParticipations = async (req, res) => {
         (today < new Date(today.getFullYear(), dob.getMonth(), dob.getDate()) ? 1 : 0);
 
       return {
+        participationID: p.participationID,
         activityID: p.activity.activityID,
         activityName: p.activity.title,
         startDate: p.activity.startDate,
