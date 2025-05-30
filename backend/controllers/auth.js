@@ -2,130 +2,134 @@ const bcrypt = require("bcrypt");
 const prisma = require('../config/prisma');
 const jwt = require('jsonwebtoken')
 
-exports.register = async(req,res)=>{
-    try{
-        const {email,password,firstName,lastName,dateOfBirth,gender} = req.body
+exports.register = async (req, res) => {
+    try {
+        const { email, password, firstName, lastName, dateOfBirth, gender } = req.body
 
-        if(!email){
-            return res.status(400).json({massage : 'Email is require'})
+        if (!email) {
+            return res.status(400).json({ massage: 'Email is require' })
         }
-        if(!password) {
-            return res.status(400).json({massage : 'password is require'})
+        if (!password) {
+            return res.status(400).json({ massage: 'password is require' })
         }
-        if(!firstName) {
-            return res.status(400).json({massage : 'firstName is require'})
+        if (!firstName) {
+            return res.status(400).json({ massage: 'firstName is require' })
         }
-        if(!lastName) {
-            return res.status(400).json({massage : 'lastName is require'})
+        if (!lastName) {
+            return res.status(400).json({ massage: 'lastName is require' })
         }
-        if(!dateOfBirth) {
-            return res.status(400).json({massage : 'dateOfBirth is require'})
+        if (!dateOfBirth) {
+            return res.status(400).json({ massage: 'dateOfBirth is require' })
         }
-        if(!gender) {
-            return res.status(400).json({massage : 'gender is require'})
+        if (!gender) {
+            return res.status(400).json({ massage: 'gender is require' })
         }
-        
+
         const existingUser = await prisma.userAuth.findUnique({
-            where:{
+            where: {
                 email
             }
         })
-        
+
         if (existingUser) {
             return res.status(400).json({ error: "Email already exists" });
         }
 
-        const hashPassword = await bcrypt.hash(password,10);
+        const hashPassword = await bcrypt.hash(password, 10);
 
         const userAuth = await prisma.userAuth.create({
             data: {
-              email,
-              password: hashPassword,
+                email,
+                password: hashPassword,
             },
-          });
+        });
 
         await prisma.userProfile.create({
             data: {
-              userID: userAuth.userID,
-              firstName,
-              lastName,
-              dateOfBirth: new Date(dateOfBirth),
-              gender,
+                userID: userAuth.userID,
+                firstName,
+                lastName,
+                dateOfBirth: new Date(dateOfBirth),
+                gender,
             },
-          });
+        });
 
         res.send('Register success')
-    
-    }catch(err){
+
+    } catch (err) {
         console.log(err)
-        res.status(500).json({message : "server Error"})
+        res.status(500).json({ message: "server Error" })
     }
 }
 
 
-exports.login = async(req,res)=>{
+exports.login = async (req, res) => {
     try {
-        const{email,password} = req.body
-        
-        const user = await prisma.userAuth.findFirst({
-            where : {
-                email
-            }
-        })
-        
+        const { email, password } = req.body
 
-        if(!user || !user.enabled) {
-            return res.status(400).json({massage:"User not found"})
+        const user = await prisma.userAuth.findFirst({
+            where: {
+                email
+            },
+            include: {
+                profile: true, // 👉 ดึงข้อมูลจาก UserProfile มาด้วย
+            },
+        })
+
+
+        if (!user || !user.enabled) {
+            return res.status(400).json({ massage: "User not found" })
         }
 
-        const isMatch = await bcrypt.compare(password,user.password)
-         if (!isMatch){
-            return res.status(400).json({massage:"Password Incorrect"})
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch) {
+            return res.status(400).json({ massage: "Password Incorrect" })
         }
 
         const payload = {
             userID: user.userID,
             email: user.email,
-            role: user.role
+            role: user.role,
+            userName: user.profile.firstName
         }
 
-        jwt.sign(payload,process.env.SECRET,{expiresIn:'1d'},(err,token)=>{
-            if(err){
-                return res.status(500).json({massage:'server error'})
+        jwt.sign(payload, process.env.SECRET, { expiresIn: '1d' }, (err, token) => {
+            if (err) {
+                return res.status(500).json({ massage: 'server error' })
             }
-            res.json({massage:'Login Successful',payload,token})
+            res.json({ massage: 'Login Successful', payload, token })
         })
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({message : "server Error"})
+        res.status(500).json({ message: "server Error" })
     }
 }
 
-exports.getUser = async(req, res)=>{
+exports.getUser = async (req, res) => {
     try {
-    const user = await prisma.userAuth.findUnique({
-      where: { userID: req.user.userID },
-      include: {
-        profile: true, 
-      },
-    });
-    
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+        const user = await prisma.userAuth.findUnique({
+            where: { userID: req.user.userID },
+            include: {
+                profile: true,
+            },
+        });
 
-    res.json({
-      user: {
-        userID: user.userID,
-        email: user.email,
-        role: user.role,
-        enabled: user.enabled,
-        profile: user.profile, 
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            user: {
+                userID: user.userID,
+                email: user.email,
+                role: user.role,
+                enabled: user.enabled,
+                profile: user.profile,
+            },
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
 }

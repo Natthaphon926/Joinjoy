@@ -37,27 +37,17 @@ exports.joinActivity = async (req, res) => {
   }
 };
 
-exports.getParticipantsByActivity = async (req, res) => {
-  const activityID = parseInt(req.params.id);
+exports.getAllParticipations = async (req, res) => {
   try {
-    const checkActivity = await prisma.activity.findFirst({
-      where: { activityID }
-    })
-
-    if(!checkActivity) {
-      return res.status(404).json({ message: "Activity not found" });
-    }
-    
     const participations = await prisma.participation.findMany({
-      where: { activityID },
       include: {
         activity: {
           select: {
             activityID: true,
             title: true,
             location: true,
-            startDate: true
-          }
+            startDate: true,
+          },
         },
         user: {
           select: {
@@ -68,20 +58,23 @@ exports.getParticipantsByActivity = async (req, res) => {
                 lastName: true,
                 gender: true,
                 dateOfBirth: true,
-              }
-            }
-          }
-        }
-      }
+                phoneNumber: true,
+                healthConditions: true,
+              },
+            },
+          },
+        },
+      },
     });
 
-    const result = participations.map(p => {
-     
+    const result = participations.map((p) => {
+      if (!p.user.profile) return null;
+
       const dob = new Date(p.user.profile.dateOfBirth);
+      const today = new Date();
       const age =
-        new Date().getFullYear() - dob.getFullYear() -
-        (new Date().setFullYear(0, dob.getMonth(), dob.getDate()) >
-          new Date().setFullYear(0, new Date().getMonth(), new Date().getDate()) ? 1 : 0);
+        today.getFullYear() - dob.getFullYear() -
+        (today < new Date(today.getFullYear(), dob.getMonth(), dob.getDate()) ? 1 : 0);
 
       return {
         activityID: p.activity.activityID,
@@ -94,19 +87,19 @@ exports.getParticipantsByActivity = async (req, res) => {
           lastName: p.user.profile.lastName,
           gender: p.user.profile.gender,
           age,
-          phoneNumber: p.phoneNumber,
-          emergencyPhone: p.emergencyPhone,
-          whyParticipate: p.whyParticipate
+          phoneNumber: p.user.profile.phoneNumber,
+          healthConditions: p.user.profile.healthConditions ?? "ไม่ระบุ",
         },
-        status: p.status
+        emergencyPhone: p.emergencyContact,
+        whyParticipate: p.whyParticipate,
+        status: p.status,
       };
-    });
+    }).filter(Boolean);
 
     res.json(result);
-
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Servererror" });
   }
 };
 
@@ -138,8 +131,8 @@ exports.updateParticipationStatus = async (req, res) => {
 
 exports.getMyParticipations = async (req, res) => {
   try {
-    
-    const userID = req.user.userID; 
+
+    const userID = req.user.userID;
 
     const participations = await prisma.participation.findMany({
       where: { userID },

@@ -1,10 +1,12 @@
 const prisma = require('../config/prisma');
+const { cloudinary } = require("../config/cloudinary");
+
 
 exports.createActivity = async (req, res) => {
   try {
-    const user = req.user; // ได้จาก middleware JWT
-    if (!'admin'.includes(user.role)) {
-      return res.status(403).json({ message: 'Access denied' });
+    const user = req.user;
+    if (user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied" });
     }
 
     const {
@@ -15,9 +17,21 @@ exports.createActivity = async (req, res) => {
       location,
       maxParticipants,
       reward,
-      images = [],
     } = req.body;
 
+    /* ---------- 1) อัปโหลดไฟล์เดียวขึ้น Cloudinary ---------- */
+    let uploadResult = null;
+    if (req.file) {
+      uploadResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "activities" },
+          (err, result) => (err ? reject(err) : resolve(result))
+        );
+        stream.end(req.file.buffer);          // req.file มาจาก memoryStorage
+      });
+    }
+
+    /* ---------- 2) สร้างกิจกรรมในฐานข้อมูล ---------- */
     const newActivity = await prisma.activity.create({
       data: {
         title,
@@ -25,26 +39,32 @@ exports.createActivity = async (req, res) => {
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         location,
-        maxParticipants,
+        maxParticipants: parseInt(maxParticipants, 10),
         reward,
         createdBy: user.userID,
       },
     });
 
-    // เพิ่ม images ถ้ามี
-    if (images.length > 0) {
-      await prisma.image.createMany({
-        data: images.map((img) => ({
-          ...img,
+    /* ---------- 3) สร้าง Image record ถ้ามีรูป ---------- */
+    if (uploadResult) {
+      await prisma.image.create({
+        data: {
+          assetID: uploadResult.asset_id,
+          publicID: uploadResult.public_id,
+          url: uploadResult.url,
+          secureUrl: uploadResult.secure_url,
           activityID: newActivity.activityID,
-        })),
+        },
       });
     }
 
-    res.status(201).json({ message: 'Activity created', activityID: newActivity.activityID });
+    return res.status(201).json({
+      message: "Activity created",
+      activityID: newActivity.activityID,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 

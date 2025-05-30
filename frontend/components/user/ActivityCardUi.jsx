@@ -20,7 +20,7 @@ const ActivityCardUi = ({ item, status }) => {
   if (!activity) return null;
   return (
     <Link to={`/detail/${activity.activityID}`}>
-      <div className="rounded-lg border shadow-md bg-white w-[310px] ">
+      <div className="rounded-lg border shadow-md bg-white w-full max-w-sm ">
         <img src="/Frame 23.png" alt="" className="w-full rounded-t-lg object-cover" />
         <div className="mx-6 my-4">
           <h3 className="mt-2 mb-4 text-lg font-semibold">{item.title}</h3>
