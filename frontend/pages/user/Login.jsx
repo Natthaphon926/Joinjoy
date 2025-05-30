@@ -111,7 +111,7 @@ const Login = ({ isOpen, onClose }) => {
                 <div className="flex mt-8">
                   <button
                     type="submit"
-                    className="bg-[#7DB5E3] rounded-lg flex-1 text-white font-light cursor-pointer  hover:bg-blue-700 py-2"
+                    className="bg-[#FA8916] rounded-lg flex-1 text-white font-light cursor-pointer  hover:bg-blue-700 py-2"
                   >
                     เข้าสู่ระบบ
                   </button>

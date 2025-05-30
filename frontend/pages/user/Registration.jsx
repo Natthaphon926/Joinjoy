@@ -81,7 +81,7 @@ const Registration = () => {
             />
             <Button
               type="submit"
-              className="bg-[#3C5D9C] text-white mt-10.75 p-4 rounded-2xl"
+              className="bg-[#FF9900] text-white mt-10.75 p-4 rounded-2xl"
             >
               เข้าร่วม
             </Button>

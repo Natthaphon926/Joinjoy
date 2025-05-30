@@ -15,22 +15,22 @@ const ImageSlider = () => {
       className="!w-screen !max-w-none relative left-1/2 -translate-x-1/2 my-12"
     >
       <SwiperSlide>
-        <img src="public/cat.png" alt="1" className="w-full h-auto object-cover" />
+        <img src="public/trash.png" alt="1" className="w-full h-auto object-cover" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="public/cat.png" alt="2" className="w-full h-auto object-cover" />
+        <img src="public/trash2.png" alt="2" className="w-full h-auto object-cover" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="public/cat.png" alt="3" className="w-full h-auto object-cover" />
+        <img src="public/trash3.jpg" alt="3" className="w-full h-auto object-cover" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="public/cat.png" alt="3" className="w-full h-auto object-cover" />
+        <img src="public/trash.png" alt="3" className="w-full h-auto object-cover" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="public/cat.png" alt="3" className="w-full h-auto object-cover" />
+        <img src="public/trash2.png" alt="3" className="w-full h-auto object-cover" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="public/cat.png" alt="3" className="w-full h-auto object-cover" />
+        <img src="public/trash3.jpg" alt="3" className="w-full h-auto object-cover" />
       </SwiperSlide>
     </Swiper>
   );

@@ -6,8 +6,8 @@ const Home = () => {
   return (
     <div>
       <ImageSlider />
-      <p className="text-[#3C5D9C] font-bold text-[40px]">
-        งานอาสา <span className="text-[#7DB5E3]">ประกาศล่าสุด</span>
+      <p className="text-[#015FDB] font-bold text-[40px]">
+        งานอาสา <span className="text-[#FA4516]">ประกาศล่าสุด</span>
       </p>
       <ActivityCard />
     </div>

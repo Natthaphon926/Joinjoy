@@ -186,7 +186,7 @@ const Register = ({ isOpen, onClose }) => {
                 <div className="flex mt-8">
                   <button
                     type="submit"
-                    className="bg-[#7DB5E3] rounded-lg flex-1 text-white font-light cursor-pointer  hover:bg-blue-700 py-2"
+                    className="bg-[#FF9700] rounded-lg flex-1 text-white font-light cursor-pointer  hover:bg-blue-700 py-2"
                   >
                     สร้างบัญชี
                   </button>
