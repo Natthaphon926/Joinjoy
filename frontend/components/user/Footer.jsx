@@ -2,21 +2,21 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1E1F2C] p-24 pb-12 text-white text-sm">
+    <footer className="bg-[#223165] p-24 pb-12 text-white text-sm">
       <div className="flex space-x-40 items-end justify-center">
         <div className="w-52">
           <img
-            className="min-h-max w-28 mx-auto"
-            src="/src/assets/jjj.png"
-            alt="logo"
+            className="min-h-max w-30 mx-auto"
+            src="/src/assets/logo1.png"
+            alt="logo1"
           />
-          <p className="text-center text-xs">
-            JOINJOY เว็บที่รวมพลังจิตอาสา เพื่อสร้างสังคมที่ดีกว่า
+          <p className="text-center text-xs text-yellow-300">
+           JOINJOY เว็บที่รวมพลังจิตอาสา เพื่อสร้างสังคมที่ดีกว่า
           </p>
         </div>
         <div className="flex space-x-18">
           <div className="block">
-            <h2 className="font-semibold text-xl mb-7">
+            <h2 className="font-semibold text-xl mb-7 text-yellow-300">
               เกี่ยวกับเว็บไซต์ของเรา
             </h2>
             <ul className="block space-y-3">
@@ -32,7 +32,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="block">
-            <h2 className="font-semibold text-xl mb-7">
+            <h2 className="font-semibold text-xl mb-7 text-yellow-300">
               นโยบายความเป็นส่วนตัว
             </h2>
             <ul className="block space-y-3">
@@ -48,7 +48,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="block">
-            <h2 className="font-semibold text-xl mb-7">ช่วยเหลือ</h2>
+            <h2 className="font-semibold text-xl mb-7 text-yellow-300">ช่วยเหลือ</h2>
             <ul className="block space-y-3">
               <li>
                 <a href="">แจ้งปัญหา</a>
@@ -60,7 +60,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="text-center mt-30">All rights reserved@joinjoy</p>
+      <p className="text-center mt-30 text-yellow-300">All rights reserved@joinjoy</p>
     </footer>
   );
 };

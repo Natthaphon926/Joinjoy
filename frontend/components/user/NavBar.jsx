@@ -13,7 +13,7 @@ const NavBar = () => {
         <p className="text-2xl">JOINJOY</p>
         <div className="flex items-center space-x-4">
           <button
-            className="border-1 border-[#3C9AFB] flex items-center justify-center p-2.75 px-5  rounded-lg font-light cursor-pointer"
+            className="border-1 border-[#035DDB] flex items-center justify-center p-2.75 px-5  rounded-lg font-light cursor-pointer"
             onClick={() => setIsLoginOpen(true)}
           >
             เข้าสู่ระบบ
@@ -23,7 +23,7 @@ const NavBar = () => {
           </AnimatePresence>
 
           <button
-            className="bg-[#7DB5E3] flex items-center justify-center p-2.75 px-5  rounded-lg font-light cursor-pointer"
+            className="bg-[#FA8916] flex items-center justify-center p-2.75 px-5  rounded-lg font-light cursor-pointer"
             onClick={() => setIsRegisterOpen(true)}
           >
             สร้างบัญชี
@@ -35,10 +35,10 @@ const NavBar = () => {
         </div>
       </nav>
       <div className="flex max-h-[250px] justify-center items-center">
-        <img src="/src/assets/jjj.png" alt="logo" />
+        <img src="/src/assets/logo1.png" alt="logo1" />
       </div>
       <div className="text-center block space-y-3">
-        <p className="text-[#DF6951] font-semibold">
+        <p className="text-[#FE4519] font-semibold">
           JOINJOY: เว็บที่ทุกคนสามารถค้นหาจิตอาสาและร่วมสร้างสังคมที่ดีขึ้น
         </p>
         <div className="mx-auto relative flex  w-[736px] p-2 bg-[#D9D9D9] overflow-hidden rounded-xl">

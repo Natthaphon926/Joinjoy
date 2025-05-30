@@ -101,7 +101,7 @@ const Detail = () => {
           </div>
         </div>
         <div className="mx-auto my-20">
-          <Link to={'/registration/'+detail.activityID} className="bg p-4 px-40 font-semibold text-white text-3xl cursor-pointer bg-[#3C5D9C] rounded-full">
+          <Link to={'/registration/'+detail.activityID} className="bg p-4 px-40 font-semibold text-white text-3xl cursor-pointer bg-[#FF9900] rounded-full">
             สมัคร
           </Link>
         </div>
