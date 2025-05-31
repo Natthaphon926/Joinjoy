@@ -66,3 +66,29 @@ exports.deleteImage = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getAllImages = async (req, res) => {
+  try {
+    const images = await prisma.image.findMany({
+      include: {
+        activity: {
+          select: {
+            activityID: true,
+            title: true,
+            location: true,
+            startDate: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(images);
+  } catch (err) {
+   
+    
+    res.status(500).json({ message: 'Server error' });
+  }
+}

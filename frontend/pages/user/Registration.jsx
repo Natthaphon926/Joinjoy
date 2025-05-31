@@ -98,9 +98,14 @@ const Registration = () => {
             </div>
           </form>
         </div>
+        
         <div className="flex-1 flex flex-col space-y-5">
-          <ActivityCard />
+          <div className="w-full">
+            <ActivityCard />
+          </div>
+          
           <div className="space-y-7">
+            
             <div className="text-[#383C3E]">
               <p className="font-semibold my-2">สิ่งที่จะได้รับจากกิจกรรมนี้</p>
               <ul className="space-y-1 font-light">

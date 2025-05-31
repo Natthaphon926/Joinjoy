@@ -18,10 +18,15 @@ const ActivityCardUi = ({ item, status }) => {
   const activity = item.activity || item; //
   const { color, title } = status ? statusMapping(status) : {};
   if (!activity) return null;
+  const images = activity.images || [];
   return (
     <Link to={`/detail/${activity.activityID}`}>
-      <div className="rounded-lg border shadow-md bg-white w-full max-w-sm ">
-        <img src="/Frame 23.png" alt="" className="w-full rounded-t-lg object-cover" />
+      <div className="rounded-lg border shadow-md bg-white w-285 max-w-sm h-100 ">
+        <img
+          src={images.length > 0 ? images[0].url : "/placeholder.png"}
+          alt="Activity"
+          className="w-full h-48 object-cover rounded-t-lg"
+        />
         <div className="mx-6 my-4">
           <h3 className="mt-2 mb-4 text-lg font-semibold">{item.title}</h3>
           <div className="flex items-center mb-2 text-sm text-gray-700">

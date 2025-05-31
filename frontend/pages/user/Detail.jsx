@@ -48,27 +48,23 @@ const Detail = () => {
     <div className="my-15">
       <div className="!w-screen !max-w-none relative left-1/2 -translate-x-1/2 my-12">
         <img
-          className="!w-screen !max-w-none relative left-1/2 -translate-x-1/2 my-12"
-          src="/src/assets/sample-img-1.png"
-          alt="sample"
+          className="!w-screen !max-w-none relative left-1/2 -translate-x-1/2 my-12 h-[700px] object-cover "
+          src={detail.images[0]?.url || "/placeholder.png"}
+          alt="activity"
         />
         <p className="absolute"></p>
       </div>
       <div className="mt-10 flex flex-col">
         <div className="text-center">
           <p className="text-[#DF6951] font-semibold text-2xl">ประเภท : xx</p>
-          <p className="text-[#181E4B] text-5xl leading-26">
-            {detail.title}
-          </p>
+          <p className="text-[#181E4B] text-5xl leading-26">{detail.title}</p>
         </div>
         <div className="space-y-3 px-40">
           <div className="font-semibold text-xl">
             <p className="text-[#353A62]">วันที่จัดกิจกรรม</p>
             <div className="flex items-center p-3 px-4">
               {/* <ClockIcon className="mr-8" height={32} width={32} /> */}
-              <p className="text-[#1B1D2A]">
-                {detail.startDate}
-              </p>
+              <p className="text-[#1B1D2A]">{detail.startDate}</p>
             </div>
           </div>
           <div className="font-semibold text-xl">
@@ -101,7 +97,10 @@ const Detail = () => {
           </div>
         </div>
         <div className="mx-auto my-20">
-          <Link to={'/registration/'+detail.activityID} className="bg p-4 px-40 font-semibold text-white text-3xl cursor-pointer bg-[#FF9900] rounded-full">
+          <Link
+            to={"/registration/" + detail.activityID}
+            className="bg p-4 px-40 font-semibold text-white text-3xl cursor-pointer bg-[#FF9900] rounded-full"
+          >
             สมัคร
           </Link>
         </div>
@@ -110,7 +109,9 @@ const Detail = () => {
             รายละเอียดเพิ่มเติม
           </h1>
           <div className="mt-13 mb-28 text-xl space-y-2">
-            <p className="font-semibold">กิจกรรมจิตอาสา: {detail.description}</p>
+            <p className="font-semibold">
+              กิจกรรมจิตอาสา: {detail.description}
+            </p>
             <p className="font-light">
               <span className="font-semibold">จัดโดย:</span> โครงการจิตอาสา
               มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (KMUTT)
