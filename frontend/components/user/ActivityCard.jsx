@@ -17,7 +17,7 @@ const ActivityCard = () => {
 
   return (
     <div className="my-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-100 xl:grid-cols-4 xl:gap-6">
+      <div className="grid grid-cols-4 gap-10">
         {filteredActivities.map((item, index) => (
           <ActivityCardUi key={index} item={item} />
         ))}

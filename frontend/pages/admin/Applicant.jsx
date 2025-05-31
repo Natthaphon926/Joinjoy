@@ -22,6 +22,8 @@ const Applicant = () => {
           const {
             participationID,
             activityID,
+            images,
+            maxParticipants,
             activityName,
             startDate,
             location,
@@ -35,6 +37,7 @@ const Applicant = () => {
           if (!grouped[activityID]) {
             grouped[activityID] = {
               participationID,
+              images:images,
               activityID,
               title: activityName,
               date: new Date(startDate).toLocaleString("th-TH", {
@@ -46,7 +49,7 @@ const Applicant = () => {
                 minute: "2-digit",
               }),
               location,
-              capacity: 80, // mock
+              capacity: maxParticipants, // mock
               participants: [],
               status,
             };
@@ -54,6 +57,7 @@ const Applicant = () => {
 
           grouped[activityID].participants.push({
             participationID,
+            images,
             firstName: user.firstName,
             lastName: user.lastName,
             gender: user.gender === "male" ? "ชาย" : "หญิง",
@@ -86,6 +90,7 @@ const Applicant = () => {
             key={item.participationID || i}
             participationID={item.participationID}
             activityID={item.activityID} // ✅ เพิ่ม
+            images={item.images} 
             title={item.title}
             location={item.location}
             capacity={item.capacity}

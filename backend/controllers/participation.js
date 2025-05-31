@@ -47,6 +47,14 @@ exports.getAllParticipations = async (req, res) => {
             title: true,
             location: true,
             startDate: true,
+            maxParticipants: true,
+            images: {
+              select: {
+                imageID: true,
+                url: true,
+                secureUrl: true,
+              },
+            },
           },
         },
         user: {
@@ -79,9 +87,12 @@ exports.getAllParticipations = async (req, res) => {
       return {
         participationID: p.participationID,
         activityID: p.activity.activityID,
+        images: p.images,
         activityName: p.activity.title,
         startDate: p.activity.startDate,
         location: p.activity.location,
+        maxParticipants: p.activity.maxParticipants,
+        images: p.activity.images,
         user: {
           userID: p.user.userID,
           firstName: p.user.profile.firstName,
@@ -145,7 +156,26 @@ exports.getMyParticipations = async (req, res) => {
             startDate: true,
             endDate: true,
             location: true,
-            reward: true
+            reward: true,
+            maxParticipants: true,
+            creator: {
+              select: {
+                userID: true,
+                profile: {
+                  select: {
+                    firstName: true,
+                    lastName: true
+                  }
+                }
+              }
+            },
+            images: {
+              select: {
+                imageID: true,
+                url: true,
+                secureUrl: true
+              }
+            }
           }
         }
       },

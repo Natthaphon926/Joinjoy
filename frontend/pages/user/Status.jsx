@@ -12,7 +12,6 @@ const Status = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = useJoinjoyStore((state) => state.token);
-  console.log(token);
   const handleSetTab = useCallback((e) => {
     setTab(e.currentTarget.value);
   }, []);
@@ -48,7 +47,7 @@ const Status = () => {
     <div className="max-w-[1200px] mx-auto p-7 space-y-6">
       {/* Header */}
       <div className="flex items-center text-2xl font-semibold">
-        <button onClick={() => navigate("/")} className="mr-7">
+        <button onClick={() => navigate("/")} className="mr-7 cursor-pointer">
           <ArrowLeft width={39} height={39} />
         </button>
         <p className="text-[#7DB5E3]">ติดตามสถานะการสมัคร</p>

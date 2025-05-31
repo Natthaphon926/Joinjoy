@@ -6,7 +6,6 @@ import axios from "axios";
 
 const Register = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  
 
   const [form, setForm] = useState({
     email: "",
@@ -19,7 +18,7 @@ const Register = ({ isOpen, onClose }) => {
     healthConditions: "",
     phoneNumber: "",
   });
-  console.log(form)
+  console.log(form);
 
   const handleOnChange = (e) => {
     setForm({
@@ -38,7 +37,7 @@ const Register = ({ isOpen, onClose }) => {
       const res = await axios.post("http://localhost:3000/api/register", form);
       console.log(res);
       toast.success(res.data);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       const errMsg = err.response?.data?.message;
       const serverError = err.message;
@@ -50,7 +49,7 @@ const Register = ({ isOpen, onClose }) => {
       console.log(err);
     }
   };
-  
+
   if (!isOpen) return null;
 
   return (
@@ -84,7 +83,7 @@ const Register = ({ isOpen, onClose }) => {
                 {/* ชื่อ */}
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="first-name">
-                    ชื่อจริง
+                    ชื่อจริง <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="firstName"
@@ -99,7 +98,7 @@ const Register = ({ isOpen, onClose }) => {
                 {/* นามสกุล */}
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="last-name">
-                    นามสกุล
+                    นามสกุล <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="lastName"
@@ -115,20 +114,24 @@ const Register = ({ isOpen, onClose }) => {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col space-y-2">
                     <label className="text-sm" htmlFor="gender">
-                      เพศ
+                      เพศ <span className="text-[red]">*</span>
                     </label>
-                    <input
+                    <select
                       name="gender"
-                      type="text"
                       id="gender"
-                      className="flex items-center p-3 px-4 rounded-lg bg-white border-[1.5px] border-[#E2E8F0] outline-0 ring-0 placeholder:text-[#94A3B8] placeholder:font-light placeholder:text-sm"
+                      className="flex items-center p-3 px-4 rounded-lg bg-white border-[1.5px] border-[#E2E8F0] outline-0 ring-0 text-sm text-gray-700"
                       onChange={handleOnChange}
                       required
-                    />
+                    >
+                      <option value="">-- กรุณาเลือกเพศ --</option>
+                      <option value="male">ชาย</option>
+                      <option value="female">หญิง</option>
+                      <option value="other">อื่น ๆ</option>
+                    </select>
                   </div>
                   <div className="flex flex-col space-y-2 ml-5">
                     <label className="text-sm" htmlFor="dateOfBirth">
-                      วันเกิด
+                      วันเกิด <span className="text-[red]">*</span>
                     </label>
                     <input
                       name="dateOfBirth"
@@ -143,7 +146,7 @@ const Register = ({ isOpen, onClose }) => {
 
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="phoneNumber">
-                    เบอร์โทรศัพท์
+                    เบอร์โทรศัพท์ <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="phoneNumber"
@@ -160,7 +163,7 @@ const Register = ({ isOpen, onClose }) => {
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="healthConditions">
-                    โรคประจําตัว
+                    โรคประจําตัว <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="healthConditions"
@@ -176,7 +179,7 @@ const Register = ({ isOpen, onClose }) => {
                 {/* Email */}
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="email">
-                    อีเมล
+                    อีเมล <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="email"
@@ -192,7 +195,7 @@ const Register = ({ isOpen, onClose }) => {
                 {/* Password */}
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="password">
-                    รหัสผ่าน
+                    รหัสผ่าน <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="password"
@@ -208,7 +211,7 @@ const Register = ({ isOpen, onClose }) => {
                 {/* Confirm Password */}
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm" htmlFor="confirm-password">
-                    ยืนยันรหัสผ่าน
+                    ยืนยันรหัสผ่าน <span className="text-[red]">*</span>
                   </label>
                   <input
                     name="confirmPassword"
@@ -225,7 +228,7 @@ const Register = ({ isOpen, onClose }) => {
                 <div className="flex mt-8">
                   <button
                     type="submit"
-                    className="bg-[#FF9700] rounded-lg flex-1 text-white font-light cursor-pointer  hover:bg-blue-700 py-2"
+                    className="bg-[#FF9700] rounded-lg flex-1 text-white font-light cursor-pointer   hover:bg-[#FE4519] py-2 transition duration-150 ease-out active:scale-90 hover:scale-98 hover:shadow-xl transform"
                   >
                     สร้างบัญชี
                   </button>

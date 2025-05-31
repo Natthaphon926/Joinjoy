@@ -17,6 +17,10 @@ const joinjoyStore = (set) => ({
     });
     return res;
   },
+  logout: () => {
+    set({ user: null, token: null });
+    localStorage.removeItem("joinjoy-store");
+  },
   getAllActivity: async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/activities");
@@ -26,7 +30,6 @@ const joinjoyStore = (set) => ({
     }
   },
   getAllParticipants: async (token) => {
-    
     if (!token) return;
 
     set({ participantLoading: true, participantError: null });

@@ -104,6 +104,7 @@ const CreateActivity = () => {
               <Input
                 name="maxParticipants"
                 type="number"
+                min={0}
                 id="maxParticipants"
                 required
               />

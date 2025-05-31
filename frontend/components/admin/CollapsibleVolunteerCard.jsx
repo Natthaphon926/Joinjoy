@@ -11,6 +11,7 @@ import axios from "axios";
 const CollapsibleVolunteerCard = ({
   activityID,
   participationID,
+  images,
   title,
   location,
   capacity,
@@ -50,7 +51,7 @@ const CollapsibleVolunteerCard = ({
         >
           <img
             className="h-35 object-cover w-60 rounded-lg border"
-            src="/assets/sample-img-1.png"
+            src={Array.isArray(images) && images.length > 0 ? images[0].url : ''}
             alt="thumbnail"
           />
           <div className="space-y-2 ml-5 flex flex-col justify-between">
@@ -71,7 +72,6 @@ const CollapsibleVolunteerCard = ({
             </div>
             <div className="flex items-center space-x-2 text-sm">
               <p>ผู้จัด: KMUTT</p>
-              <p>ผู้รับ: ไม่ระบุ</p>
             </div>
           </div>
           <div className="ml-auto text-center text-sm mr-10">

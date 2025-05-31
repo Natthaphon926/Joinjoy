@@ -4,16 +4,21 @@ import FacebookIcon from "../../src/assets/facebookIcon";
 import Button from "../../src/assets/Button";
 import useJoinjoyStore from "../../global-store/joinjoy-store";
 import ActivityCard from "../../components/user/ActivityCard";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import axios from "axios";
+import { Facebook, LineChart } from "lucide-react";
 const Registration = () => {
-  const token = useJoinjoyStore((state)=>state.token)
-  const {id} = useParams()
+  const navigate = useNavigate();
+  const token = useJoinjoyStore((state) => state.token);
+  const activities = useJoinjoyStore((state) => state.activities);
+  const { id } = useParams();
   const [form, setForm] = useState({
     whyParticipate: "",
     emergencyContact: "",
   });
+  console.log(activities)
 
   const handleOnChange = (e) => {
     setForm({
@@ -24,25 +29,47 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   
-    try {
-      const res = await axios.post("http://localhost:3000/api/activities/"+id+"/join", form,{
-        headers:{
-            Authorization:`bearer ${token}`
-        }
-    });
-      console.log(res);
-      toast.success(res.data.message);
-    } catch (err) {
-      const errMsg = err.response?.data?.message;
-      const serverError = err.message;
-      if (errMsg) {
-        toast.error(errMsg);
-      } else if (serverError) {
-        toast.error(serverError);
-      }
 
-      console.log(err);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/activities/" + id + "/join",
+        form,
+        {
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
+        }
+      );
+
+      const result = await Swal.fire({
+        title: "สมัครสำเร็จ!",
+        text: "คุณได้เข้าร่วมกิจกรรมเรียบร้อยแล้ว",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonText: "ติดตามสถานะ",
+        cancelButtonText: "กลับหน้าหลัก",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/status");
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          navigate("/");
+        }
+      });
+    } catch (err) {
+      const errMsg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ";
+
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด",
+        text: errMsg,
+        confirmButtonText: "ตกลง",
+      });
+
+      console.error("เกิดข้อผิดพลาด:", err);
     }
   };
 
@@ -55,7 +82,7 @@ const Registration = () => {
           </p>
           <form onSubmit={handleSubmit} className="space-y-1 flex flex-col">
             <label className="text-sm font-light" htmlFor="whyParticipate">
-              เหตุผลที่อยากเข้าร่วม
+              เหตุผลที่อยากเข้าร่วม <span className="text-[red]">*</span>
             </label>
             <textarea
               onChange={handleOnChange}
@@ -69,7 +96,7 @@ const Registration = () => {
               className="text-sm font-light mt-5"
               htmlFor="emergencyContact"
             >
-              เบอร์โทรฉุกเฉิน
+              เบอร์โทรฉุกเฉิน <span className="text-[red]">*</span>
             </label>
             <input
               onChange={handleOnChange}
@@ -77,11 +104,12 @@ const Registration = () => {
               name="emergencyContact"
               id="emergencyContact"
               type="number"
+              min={0}
               required
             />
             <Button
               type="submit"
-              className="bg-[#FF9900] text-white mt-10.75 p-4 rounded-2xl"
+              className="bg-[#FF9900] text-white mt-10.75 p-4 rounded-2xl transition duration-150 ease-out active:scale-90 hover:scale-98 hover:shadow-xl transform"
             >
               เข้าร่วม
             </Button>
@@ -98,16 +126,15 @@ const Registration = () => {
             </div>
           </form>
         </div>
-        
+
         <div className="flex-1 flex flex-col space-y-5">
           <div className="w-full">
             <ActivityCard />
           </div>
-          
+
           <div className="space-y-7">
-            
             <div className="text-[#383C3E]">
-              <p className="font-semibold my-2">สิ่งที่จะได้รับจากกิจกรรมนี้</p>
+              <p className="font-semibold my-2 text-2xl">สิ่งที่จะได้รับจากกิจกรรมนี้</p>
               <ul className="space-y-1 font-light">
                 <li>✅ ได้ใบประกาศเกียรติคุณ</li>
                 <li>✅ ประสบการณ์จิตอาสาสุดพิเศษ</li>
@@ -115,27 +142,27 @@ const Registration = () => {
               </ul>
             </div>
             <div className="text-[#383C3E]">
-              <p className="font-semibold my-2">กลุ่มของเรา</p>
+              <p className="font-semibold my-2 text-2xl">กลุ่มของเรา</p>
               <ul className="space-y-1 font-light">
                 <li className="flex items-center">
-                  <FacebookIcon className="mr-3" />
+                  <Facebook className="mr-3" />
                   kmutt
                 </li>
                 <li className="flex items-center">
-                  <LineIcon className="mr-3" />
+                  <LineChart className="mr-3" />
                   kmutt
                 </li>
               </ul>
             </div>
             <div className="text-[#383C3E]">
-              <p className="font-semibold my-2">ติดต่อเรา</p>
+              <p className="font-semibold my-2 text-2xl">ติดต่อเรา</p>
               <ul className="space-y-1 font-light">
                 <li>+66 7777777777</li>
               </ul>
             </div>
           </div>
           <p className="mt-15 text-[#1B579C] font-semibold">
-            มีผู้สมัครแล้ว {1} คน มาร่วมเป็นส่วนหนึ่งกับเรา!
+            มีผู้สมัครแล้ว <span className="text-[#FE4519]">?</span> คน มาร่วมเป็นส่วนหนึ่งกับเรา!
           </p>
         </div>
       </div>

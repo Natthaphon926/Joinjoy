@@ -6,6 +6,7 @@ import Home from "../pages/user/Home";
 import Registration from "../pages/user/Registration";
 import Detail from "../pages/user/Detail";
 import Status from "../pages/user/Status";
+import ReceipPage from "../pages/user/ReceipPage";
 import AllActivity from "../pages/admin/AllActivity";
 import Applicant from "../pages/admin/Applicant";
 import CreateActivity from "../pages/admin/CreateActivity";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       { path: "createActivity", element: <CreateActivity /> },
       { path: "editActivity", element: <EditActivity /> },
     ],
+  },
+  {
+    path: "/receip",
+    element: <ReceipPage />,
   },
 ]);
 
