@@ -8,7 +8,7 @@ const ReceipPage = () => {
     <div className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-1/2">
       <div className="text-center flex flex-col items-center justify-center">
         <div className="bg-green-400 w-50 h-50 rounded-[100%] flex justify-center">
-            <img src="public/Vector.png" alt="" className="object-contain" />
+            <img src="/images/Vector.png" alt="" className="object-contain" />
         </div>
         <div className="mt-8.75">
           <p className="text-2xl font-semibold leading-10">

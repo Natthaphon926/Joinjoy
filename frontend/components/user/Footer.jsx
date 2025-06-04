@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="w-52">
           <img
             className="min-h-max w-30 mx-auto"
-            src="/src/assets/logo1.png"
+            src="/images/logo1.png"
             alt="logo1"
           />
           <p className="text-center text-xs text-yellow-300">

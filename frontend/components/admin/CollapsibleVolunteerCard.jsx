@@ -31,7 +31,6 @@ const CollapsibleVolunteerCard = ({
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // อัปเดต UI ทันที
       setParticipants((prev) =>
         prev.map((p, i) => (i === index ? { ...p, status: newStatus } : p))
       );
@@ -51,11 +50,13 @@ const CollapsibleVolunteerCard = ({
         >
           <img
             className="h-35 object-cover w-60 rounded-lg border"
-            src={Array.isArray(images) && images.length > 0 ? images[0].url : ''}
+            src={
+              Array.isArray(images) && images.length > 0 ? images[0].url : ""
+            }
             alt="thumbnail"
           />
           <div className="space-y-2 ml-5 flex flex-col justify-between">
-            <p className="font-medium">{title}</p>
+            <p className="font-bold">{title}</p>
             <div className="font-light">
               <div className="flex items-center space-x-2">
                 <MapPin className="size-4" />
@@ -131,8 +132,8 @@ const CollapsibleVolunteerCard = ({
                                 variant={ButtonVariant.OUTLINE}
                                 onClick={() =>
                                   updateParticipantStatus(
-                                    participant.participationID, // <-- id ชัดเจน
-                                    i, // <-- index
+                                    participant.participationID,
+                                    i, //
                                     "approved"
                                   )
                                 }
@@ -156,7 +157,7 @@ const CollapsibleVolunteerCard = ({
                           ) : (
                             <div
                               className={cn(
-                                "px-3 py-1 rounded-full text-sm font-medium",
+                                "inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full text-sm font-medium",
                                 participant.status === "approved"
                                   ? "bg-green-100 text-green-700 border border-green-400"
                                   : participant.status === "rejected"

@@ -56,7 +56,7 @@ const CreateActivity = () => {
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex py-1 items-center mb-4 h-14">
-        <h1 className="text-3xl font-semibold text-[#3C60BC]">
+        <h1 className="text-3xl font-semibold text-[#0070CC]">
           สร้างกิจกรรมของคุณ
         </h1>
       </div>
@@ -121,13 +121,13 @@ const CreateActivity = () => {
               </label>
               <Input name="reward" type="text" id="reward" />
             </div>
-            <Button className="bg-[#3C5D9C] text-white">ยืนยันการสร้าง</Button>
+            <Button className="bg-[#FE4519] text-white transition duration-150 ease-out active:scale-90 hover:scale-105 hover:shadow-xl transform cursor-pointer ">ยืนยันการสร้าง</Button>
           </div>
           <div className="rounded-lg border border-[#D0D0D0] h-max p-5">
             <h2 className="font-semibold text-xl mb-5">อัปโหลดรูปกิจกรรม</h2>
             <FileUploadDropzone
               onDrop={onUpload}
-              inputName="image" // ชื่อ field
+              inputName="image" 
               accept={{ "image/jpeg": [], "image/png": [] }}
               maxFiles={1}
             />
@@ -149,7 +149,7 @@ const CreateActivity = () => {
                       <button
                         type="button"
                         onClick={() => handleRemovePreview(i)}
-                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold"
+                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold cursor-pointer"
                         aria-label="ลบรูปภาพ"
                       >
                         ×

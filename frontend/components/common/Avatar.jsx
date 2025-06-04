@@ -9,7 +9,7 @@ export default function Avatar({ className, src, ...props }) {
       )}
       {...props}
     >
-      <img className="object-cover rounded-full" src='public/Mee.png' alt="avatar" />
+      <img className="object-cover rounded-full" src='/images/Mee.png' alt="avatar" />
     </div>
   );
 }

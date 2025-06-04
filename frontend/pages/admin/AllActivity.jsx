@@ -9,7 +9,7 @@ const AllActivity = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex py-1 items-center mb-4 h-13">
-        <h1 className="text-3xl font-semibold text-[#3C60BC]">
+        <h1 className="text-3xl font-semibold text-[#0070CC]">
           กิจกรรมทั้งหมด
         </h1>
         <div className="ml-auto relative flex  w-[736px] p-2 bg-[#D9D9D9] overflow-hidden rounded-xl">

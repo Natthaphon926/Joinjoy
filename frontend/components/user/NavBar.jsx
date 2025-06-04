@@ -23,7 +23,7 @@ const NavBar = () => {
     navigate("/"); 
   };
 
-  // ✅ โหลด user จาก localStorage
+  
   useEffect(() => {
     const data = localStorage.getItem("joinjoy-store");
     if (data) {
@@ -117,7 +117,7 @@ const NavBar = () => {
       </nav>
 
       <div className="flex max-h-[250px] justify-center items-center">
-        <img src="public/logo1.png" alt="logo1" />
+        <img src="/images/logo1.png" alt="logo1" />
       </div>
       <div className="text-center block space-y-3">
         <p className="text-[#FE4519] font-semibold">

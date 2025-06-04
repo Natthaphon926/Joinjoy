@@ -52,7 +52,7 @@ const EditActivity = () => {
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex py-1 items-center mb-4 h-14">
-        <h1 className="text-3xl font-semibold text-[#3C60BC]">จัดการกิจกรรม</h1>
+        <h1 className="text-3xl font-semibold text-[#0070CC]">จัดการกิจกรรม</h1>
       </div>
       <div className="overflow-x-auto bg-white rounded-md">
         <table className="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
@@ -91,9 +91,9 @@ const EditActivity = () => {
                 </td>
                 <td className="px-4 py-3">{activity.participantsCount}</td>
                 <td className="px-4 py-3">{activity.maxParticipants}</td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 whitespace-nowrap">
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                       activity.status === "ACTIVE"
                         ? "bg-green-100 text-green-800"
                         : "bg-gray-100 text-gray-800"

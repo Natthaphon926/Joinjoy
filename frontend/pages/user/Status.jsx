@@ -45,7 +45,7 @@ const Status = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto p-7 space-y-6">
-      {/* Header */}
+     
       <div className="flex items-center text-2xl font-semibold">
         <button onClick={() => navigate("/")} className="mr-7 cursor-pointer">
           <ArrowLeft width={39} height={39} />
@@ -53,14 +53,14 @@ const Status = () => {
         <p className="text-[#7DB5E3]">ติดตามสถานะการสมัคร</p>
       </div>
 
-      {/* Section Title */}
+      
       <div className="text-2xl font-semibold bg-[#3C5D9C] text-white py-3.5 px-10 rounded-t-2xl">
         กิจกรรมที่คุณสมัคร
       </div>
 
-      {/* Content */}
+      
       <div className="border-2 border-[#939090] p-8.5 rounded-xl space-y-8.5">
-        {/* Tabs */}
+        
         <div className="grid grid-cols-3 gap-7.5">
           {[
             { value: "approved", label: "สำเร็จ" },
@@ -82,7 +82,7 @@ const Status = () => {
           ))}
         </div>
 
-        {/* Activity Cards */}
+        
         {loading ? (
           <p className="text-center py-10">กำลังโหลด...</p>
         ) : error ? (

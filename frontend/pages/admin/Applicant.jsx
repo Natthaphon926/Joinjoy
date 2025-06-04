@@ -32,7 +32,7 @@ const Applicant = () => {
             whyParticipate,
             emergencyPhone,
           } = item;
-          console.log("item", item); // ดูว่ามี status หรือเปล่า
+          console.log("item", item); 
 
           if (!grouped[activityID]) {
             grouped[activityID] = {
@@ -49,7 +49,7 @@ const Applicant = () => {
                 minute: "2-digit",
               }),
               location,
-              capacity: maxParticipants, // mock
+              capacity: maxParticipants, 
               participants: [],
               status,
             };
@@ -82,21 +82,21 @@ const Applicant = () => {
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex py-1 items-center mb-4 h-14">
-        <h1 className="text-3xl font-semibold text-[#3C60BC]">ผู้สมัคร</h1>
+        <h1 className="text-3xl font-semibold text-[#0070CC]">ผู้สมัคร</h1>
       </div>
       <div className="relative h-full w-full p-4 min-h-0 overflow-y-scroll bg-white rounded-md flex space-y-4 flex-col">
         {registrationList.map((item, i) => (
           <CollapsibleVolunteerCard
             key={item.participationID || i}
             participationID={item.participationID}
-            activityID={item.activityID} // ✅ เพิ่ม
+            activityID={item.activityID} 
             images={item.images} 
             title={item.title}
             location={item.location}
             capacity={item.capacity}
             date={item.date}
             participants={item.participants}
-            status={item.status} // ✅ เพิ่ม
+            status={item.status} 
           />
         ))}
       </div>

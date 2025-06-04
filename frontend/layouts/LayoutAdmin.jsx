@@ -43,7 +43,7 @@ const LayoutAdmin = () => {
       <div className="flex h-screen min-h-0">
         <div className="w-90 h-full min-h-0 bg-white">
           <div className="border-b flex items-center p-2 px-3 border-[#D5D5D5]">
-            <Avatar className="size-14.5 p-1" src={'public/cat.png'} />
+            <Avatar className="size-14.5 p-1" src={'/images/cat.png'} />
             <div className="ml-3">
               <p className="text-base font-medium">{user?.userName}</p>
               <p className="text-xs text-[#3B3B3B9C]">{user?.role}</p>

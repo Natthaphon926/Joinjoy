@@ -11,13 +11,15 @@ const ActivityCard = () => {
     getAllActivity();
   }, []);
 
-  const filteredActivities = id
-    ? activities.filter((item) => String(item.activityID) === String(id))
-    : activities;
+  const filteredActivities = Array.isArray(activities)
+    ? id
+      ? activities.filter((item) => String(item.activityID) === String(id))
+      : activities
+    : [];
 
   return (
     <div className="my-10">
-      <div className="grid grid-cols-4 gap-10">
+      <div className="grid grid-cols-4 justify-between gap-10">
         {filteredActivities.map((item, index) => (
           <ActivityCardUi key={index} item={item} />
         ))}
