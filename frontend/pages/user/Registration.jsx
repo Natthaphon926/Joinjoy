@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import LineIcon from "../../src/assets/lineIcon";
-import FacebookIcon from "../../src/assets/facebookIcon";
 import Button from "../../src/assets/Button";
 import useJoinjoyStore from "../../global-store/joinjoy-store";
+import TreeSelect from "../../components/user/TreeSelect";
 import ActivityCard from "../../components/user/ActivityCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,6 +10,7 @@ import axios from "axios";
 import { Facebook, LineChart } from "lucide-react";
 const Registration = () => {
   const navigate = useNavigate();
+  const [selectedTreeID, setSelectedTreeID] = useState(null);
   const token = useJoinjoyStore((state) => state.token);
   const activities = useJoinjoyStore((state) => state.activities);
   const { id } = useParams();
@@ -30,10 +30,20 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+     if (selectedTreeID.length === 0) {
+      toast.error("กรุณาเลือกต้นไม้อย่างน้อย 1 ต้น");
+      return;
+    }
+
+    const payload = {
+      ...form,
+      treeIDs:selectedTreeID
+    };
+
     try {
       const res = await axios.post(
         "http://localhost:3000/api/activities/" + id + "/join",
-        form,
+        payload,
         {
           headers: {
             Authorization: `bearer ${token}`,
@@ -107,6 +117,7 @@ const Registration = () => {
               min={0}
               required
             />
+            <TreeSelect onSelect={setSelectedTreeID} />
             <Button
               type="submit"
               className="bg-[#FF9900] text-white mt-10.75 p-4 rounded-2xl transition duration-150 ease-out active:scale-90 hover:scale-98 hover:shadow-xl transform"

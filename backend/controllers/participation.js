@@ -4,7 +4,7 @@ const prisma = require('../config/prisma');
 exports.joinActivity = async (req, res) => {
   const userID = req.user.userID;
   const activityID = parseInt(req.params.id);
-  const { phoneNumber, whyParticipate, healthConditions, emergencyContact } = req.body;
+  const { phoneNumber, whyParticipate, healthConditions, emergencyContact, treeIDs } = req.body;
 
   try {
     // ตรวจว่าเคยสมัครไปแล้วหรือยัง
@@ -26,6 +26,11 @@ exports.joinActivity = async (req, res) => {
         healthConditions,
         emergencyContact,
         status: "pending",
+        trees: {
+          create: treeIDs.map(treeID => ({
+            tree: { connect: { treeID: parseInt(treeID) } },
+          }))
+        }
       },
     });
 

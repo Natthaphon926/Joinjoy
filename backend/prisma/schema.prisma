@@ -64,6 +64,7 @@ model Participation {
   participationID Int @id @default(autoincrement())
   userID          Int
   activityID      Int
+  
 
   whyParticipate   String @db.Text
   emergencyContact String
@@ -74,6 +75,7 @@ model Participation {
 
   user     UserAuth @relation(fields: [userID], references: [userID])
   activity Activity @relation(fields: [activityID], references: [activityID], onDelete: Cascade)
+  trees ParticipationTree[]
 }
 
 model Image {
@@ -87,4 +89,26 @@ model Image {
   updatedAt  DateTime @updatedAt
 
   activity Activity @relation(fields: [activityID], references: [activityID], onDelete: Cascade)
+}
+
+model Tree {
+  treeID           Int      @id @default(autoincrement())
+  name             String
+  description      String   @db.Text
+  carbonAbsorption Int      
+  imageUrl         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  participations ParticipationTree[]
+}
+
+model ParticipationTree {
+  participationID Int
+  treeID         Int
+
+  participation Participation @relation(fields: [participationID], references: [participationID])
+  tree          Tree          @relation(fields: [treeID], references: [treeID])
+
+  @@id([participationID, treeID])
 }
