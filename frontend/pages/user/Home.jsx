@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ActivityCard from "../../components/user/ActivityCard";
 import ImageSlider from "../../components/user/ImageSlider";
+import Leaderboard from "../../components/user/Leaderboard";
 
 const Home = () => {
   const categories = [
@@ -35,6 +36,7 @@ const Home = () => {
         </div>
       </div>
       <ImageSlider />
+      <Leaderboard />
       <p className="text-[#015FDB] font-bold text-[40px]">
         งานอาสา <span className="text-[#FA4516]">ประกาศล่าสุด</span>
       </p>

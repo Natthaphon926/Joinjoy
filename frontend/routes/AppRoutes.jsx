@@ -10,8 +10,11 @@ import ReceipPage from "../pages/user/ReceipPage";
 import AllActivity from "../pages/admin/AllActivity";
 import Applicant from "../pages/admin/Applicant";
 import CreateActivity from "../pages/admin/CreateActivity";
+import ManageActivity from "../pages/admin/ManageActivity";
 import EditActivity from "../pages/admin/EditActivity";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
+import Profile from "../pages/user/Profile";
+import ListAllUsers from "../pages/admin/ListAllUsers";
 
 const router = createBrowserRouter([
   {
@@ -32,12 +35,18 @@ const router = createBrowserRouter([
       { path: "allActivity", element: <AllActivity /> },
       { path: "applicant", element: <Applicant /> },
       { path: "createActivity", element: <CreateActivity /> },
-      { path: "editActivity", element: <EditActivity /> },
+      { path: "manageActivity", element: <ManageActivity /> },
+      { path: "listallusers", element: <ListAllUsers /> },
+      { path: "editActivity/:id", element: <EditActivity /> },
     ],
   },
   {
     path: "/receip",
     element: <ReceipPage />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 

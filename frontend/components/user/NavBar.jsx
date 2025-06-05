@@ -23,6 +23,9 @@ const NavBar = () => {
     navigate("/"); 
   };
 
+  const profile = () => {
+    navigate('/profile')
+  }
   
   useEffect(() => {
     const data = localStorage.getItem("joinjoy-store");
@@ -67,6 +70,12 @@ const NavBar = () => {
                     align="start"
                     className="border-1 rounded-lg p-2 text-sm font-light mt-5 bg-white shadow-md"
                   >
+                    <DropdownMenu.Item
+                      onClick={profile}
+                      className="outline-0 p-2 cursor-pointer hover:bg-[#0057FF26] rounded-sm "
+                    >
+                      โปรไฟล์ของคุณ
+                    </DropdownMenu.Item>
                     {menuList.map((item) => (
                       <DropdownMenu.Item
                         key={item.title}
@@ -76,6 +85,7 @@ const NavBar = () => {
                         {item.title}
                       </DropdownMenu.Item>
                     ))}
+            
                     <DropdownMenu.Item
                       onClick={logout}
                       className="text-[red] outline-0 p-2 cursor-pointer hover:bg-[#0057FF26] rounded-sm "

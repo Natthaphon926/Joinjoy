@@ -3,3 +3,27 @@
 body {
   font-family: 'Inter', 'Noto Sans Thai', sans-serif;
 }
+
+@keyframes electricFlicker {
+  0% {
+    text-shadow: 0 0 2px #ee5522, 0 0 4px #9d2b05;
+    transform: scale(1);
+  }
+  45% {
+    text-shadow: 0 0 1px #ee5522, 0 0 2px #ff4001;
+    transform: scale(1.01);
+  }
+  50% {
+    text-shadow: 0 0 0px #ee5522, 0 0 1px #ff4001;
+    transform: scale(0.99);
+  }
+  55% {
+    text-shadow: 0 0 2px #ee5522, 0 0 4px #ff4001, 0 0 6px #ff3300;
+    transform: scale(1.02);
+  }
+  100% {
+    text-shadow: 0 0 2px #ee5522, 0 0 4px #ff4001;
+    transform: scale(1);
+  }
+}
+

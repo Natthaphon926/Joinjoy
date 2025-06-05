@@ -157,19 +157,68 @@ exports.updateActivity = async (req, res) => {
     endDate,
     location,
     maxParticipants,
-    reward
+    reward,
   } = req.body;
 
   try {
+    // ตรวจว่าเป็น admin
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
     const activity = await prisma.activity.findUnique({
       where: { activityID: id },
+      include: {
+        images: true,
+      },
     });
 
     if (!activity) {
       return res.status(404).json({ message: "Activity not found" });
     }
 
-    const updatedActivity = await prisma.activity.update({
+    /* ---------- 1) ถ้ามีรูปใหม่ → ลบรูปเก่าใน Cloudinary แล้วอัปโหลดใหม่ ---------- */
+    let uploadResult = null;
+    if (req.file) {
+      const oldImage = activity.images[0]; // รูปเก่า (ถ้ามี)
+      if (oldImage?.publicID) {
+        await cloudinary.uploader.destroy(oldImage.publicID);
+      }
+
+      uploadResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "activities" },
+          (err, result) => (err ? reject(err) : resolve(result))
+        );
+        stream.end(req.file.buffer);
+      });
+
+      if (oldImage) {
+        await prisma.image.update({
+          where: { imageID: oldImage.imageID },
+          data: {
+            assetID: uploadResult.asset_id,
+            publicID: uploadResult.public_id,
+            url: uploadResult.url,
+            secureUrl: uploadResult.secure_url,
+          },
+        });
+      } else {
+        await prisma.image.create({
+          data: {
+            assetID: uploadResult.asset_id,
+            publicID: uploadResult.public_id,
+            url: uploadResult.url,
+            secureUrl: uploadResult.secure_url,
+            activityID: id,
+          },
+        });
+      }
+    }
+
+
+    /* ---------- 2) อัปเดตข้อมูลกิจกรรม ---------- */
+    const updated = await prisma.activity.update({
       where: { activityID: id },
       data: {
         title,
@@ -177,17 +226,20 @@ exports.updateActivity = async (req, res) => {
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         location,
-        maxParticipants,
+        maxParticipants: parseInt(maxParticipants),
         reward,
       },
     });
 
-    res.json(updatedActivity);
+
+    res.json({ message: "Activity updated", activity: updated });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 exports.deleteActivity = async (req, res) => {
   const id = parseInt(req.params.id);

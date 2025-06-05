@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 exports.register = async (req, res) => {
     try {
-        const { email, password, firstName, lastName, dateOfBirth, gender , healthConditions , phoneNumber } = req.body
+        const { email, password, firstName, lastName, dateOfBirth, gender, healthConditions, phoneNumber } = req.body
 
         if (!email) {
             return res.status(400).json({ massage: 'Email is require' })
@@ -114,6 +114,15 @@ exports.getUser = async (req, res) => {
             where: { userID: req.user.userID },
             include: {
                 profile: true,
+                participations: {
+                    include: {
+                        trees: {
+                            include: {
+                                tree: true,
+                            },
+                        },
+                    },
+                },
             },
         });
 
@@ -121,17 +130,33 @@ exports.getUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
+        // คำนวณ total carbon
+        let totalCarbon = 0;
+        user.participations.forEach((p) => {
+            p.trees.forEach((pt) => {
+                totalCarbon += pt.tree.carbonAbsorption;
+            });
+        });
+
+        
         res.json({
             user: {
                 userID: user.userID,
                 email: user.email,
                 role: user.role,
                 enabled: user.enabled,
-                profile: user.profile,
+                profile: {
+                    firstName: user.profile.firstName,
+                    lastName: user.profile.lastName,
+                    gender: user.profile.gender,
+                    phoneNumber: user.profile.phoneNumber,
+                    healthConditions: user.profile.healthConditions,
+                },
+                totalCarbon, 
             },
         });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server error" });
     }
-}
+};

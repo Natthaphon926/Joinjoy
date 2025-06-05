@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Bolt, House, Plus, Users } from 'lucide-react';
+import { Bolt, House, Plus, Send, User, UserPlus, Users } from 'lucide-react';
 import Avatar from "../components/common/Avatar";
 import useJoinjoyStore from "../global-store/joinjoy-store";
 import { cn } from "../src/assets/ีutils/tw-merge";
@@ -19,14 +19,19 @@ const LayoutAdmin = () => {
       icon: <Plus />,
     },
     {
-      href: "/admin/editActivity",
+      href: "/admin/manageActivity",
       title: "จัดการกิจกรรม",
       icon: <Bolt />,
     },
     {
       href: "/admin/applicant",
       title: "ผู้สมัคร",
-      icon: <Users />,
+      icon: <Send />,
+    },
+    {
+      href: "/admin/listallusers",
+      title: "รายชื่อผู้ใช้",
+      icon: <User />,
     },
   ];
   
