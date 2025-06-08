@@ -37,6 +37,7 @@ const Home = () => {
       </div>
       <ImageSlider />
       <Leaderboard />
+
       <p className="text-[#015FDB] font-bold text-[40px]">
         งานอาสา <span className="text-[#FA4516]">ประกาศล่าสุด</span>
       </p>

@@ -11,14 +11,13 @@ const Login = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const actionLogin = useJoinjoyStore((state) => state.actionLogin);
-  
- 
-
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  // เพิ่ม state สำหรับ loading
+  const [isLoading, setIsLoading] = useState(false); // <--- เพิ่มตรงนี้
 
   const handleOnChange = (e) => {
     setForm({
@@ -29,6 +28,8 @@ const Login = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // ตั้งค่า isLoading เป็น true เมื่อเริ่มส่งฟอร์ม
+    setIsLoading(true); // <--- เพิ่มตรงนี้
 
     try {
       const res = await actionLogin(form);
@@ -37,7 +38,17 @@ const Login = ({ isOpen, onClose }) => {
       toast.success("Login Success");
     } catch (err) {
       console.log(err);
-      toast.error(err.response?.data?.massage);
+      if (err.response && err.response.data && err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else if (err.message) {
+        // สำหรับ Network errors หรือข้อผิดพลาดอื่นๆ ที่มีแค่ err.message
+        toast.error(err.message);
+      } else {
+        // กรณีที่ไม่รู้โครงสร้าง error หรือเป็น error ที่ไม่คาดคิด
+        toast.error("An unexpected error occurred.");
+      }
+      // ไม่ว่าจะสำเร็จหรือล้มเหลว ให้ตั้งค่า isLoading กลับเป็น false เสมอ
+      setIsLoading(false); // <--- เพิ่มตรงนี้
     }
   };
 
@@ -56,7 +67,7 @@ const Login = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50  backdrop-blur-sm bg-white/30 flex items-center justify-center px-4"
+          className="fixed inset-0 z-50  backdrop-blur-sm bg-white/30 flex items-center justify-center px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -91,6 +102,8 @@ const Login = ({ isOpen, onClose }) => {
                     className="flex items-center p-3 px-4 rounded-lg bg-white border-[1.5px] border-[#E2E8F0] outline-0 ring-0 placeholder:text-[#94A3B8] placeholder:font-light placeholder:text-sm "
                     onChange={handleOnChange}
                     required
+                    // ปิดการใช้งาน input ขณะ loading
+                    disabled={isLoading} // <--- เพิ่มตรงนี้
                   />
                 </div>
 
@@ -106,14 +119,24 @@ const Login = ({ isOpen, onClose }) => {
                     className="flex items-center p-3 px-4 rounded-lg bg-white border-[1.5px] border-[#E2E8F0] outline-0 ring-0 placeholder:text-[#94A3B8] placeholder:font-light placeholder:text-sm"
                     onChange={handleOnChange}
                     required
+                    // ปิดการใช้งาน input ขณะ loading
+                    disabled={isLoading} // <--- เพิ่มตรงนี้
                   />
                 </div>
                 <div className="flex mt-8">
                   <button
                     type="submit"
-                    className="bg-[#FA8916] rounded-lg flex-1 text-white font-light cursor-pointer  hover:bg-[#FE4519] py-2 transition duration-150 ease-out active:scale-90 hover:scale-98 hover:shadow-xl transform"
+                    className={`rounded-lg flex-1 text-white font-light py-2 transition duration-150 ease-out active:scale-90 transform
+                      ${
+                        isLoading
+                          ? "bg-gray-400 cursor-not-allowed" // สไตล์เมื่อ loading
+                          : "bg-[#FA8916] hover:bg-[#FE4519] cursor-pointer hover:scale-98 hover:shadow-xl" // สไตล์ปกติ
+                      }`}
+                    // ปิดการใช้งานปุ่มเมื่อ loading
+                    disabled={isLoading} // <--- เพิ่มตรงนี้
                   >
-                    เข้าสู่ระบบ
+                    {isLoading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}{" "}
+                    {/* <--- เปลี่ยนข้อความตามสถานะ loading */}
                   </button>
                 </div>
               </div>

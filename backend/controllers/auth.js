@@ -80,12 +80,12 @@ exports.login = async (req, res) => {
 
 
         if (!user || !user.enabled) {
-            return res.status(400).json({ massage: "User not found" })
+            return res.status(400).json({ message: "User not found" })
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            return res.status(400).json({ massage: "Password Incorrect" })
+            return res.status(400).json({ message: "Password Incorrect" })
         }
 
         const payload = {
@@ -97,7 +97,7 @@ exports.login = async (req, res) => {
 
         jwt.sign(payload, process.env.SECRET, { expiresIn: '1d' }, (err, token) => {
             if (err) {
-                return res.status(500).json({ massage: 'server error' })
+                return res.status(500).json({ message: 'server error' })
             }
             res.json({ massage: 'Login Successful', payload, token })
         })
@@ -138,7 +138,7 @@ exports.getUser = async (req, res) => {
             });
         });
 
-        
+
         res.json({
             user: {
                 userID: user.userID,
@@ -152,7 +152,7 @@ exports.getUser = async (req, res) => {
                     phoneNumber: user.profile.phoneNumber,
                     healthConditions: user.profile.healthConditions,
                 },
-                totalCarbon, 
+                totalCarbon,
             },
         });
     } catch (err) {
@@ -160,3 +160,14 @@ exports.getUser = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+exports.getUserCount = async (req, res) => {
+    try {
+        const count = await prisma.userAuth.count();
+        res.json({ totalUsers: count });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
