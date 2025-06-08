@@ -33,7 +33,7 @@ const ActivityCardUi = ({ item, status }) => {
   return (
     <Link
       to={`/detail/${activity.activityID}`}
-      className="w-[285px] transition duration-150 ease-out active:scale-90 hover:scale-105 hover:shadow-xl transform"
+      className="block w-[285px] transition duration-150 ease-out active:scale-90 hover:scale-105 hover:shadow-xl transform"
     >
       <div className="rounded-lg border shadow-md bg-white w-[285px] max-w-sm h-110 ">
         <img
