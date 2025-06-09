@@ -90,7 +90,7 @@ const ActivityForm = ({ mode = "create", activityID, token }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-2 space-x-7 p-10">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-7 p-5 md:p-10">
       <div className="flex flex-col space-y-3">
         {[
           ["title", "ชื่อกิจกรรม"],

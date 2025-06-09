@@ -108,13 +108,13 @@ const Leaderboard = () => {
           className="text-center text-[#6b6e72] mt-15 text-xl"
         >
           คุณอยู่อันดับ{" "}
-          <span className="text-blue-600 font-semibold text-3xl">
+          <span className="text-blue-600 font-semibold text-5xl">
             {currentUserRank.rank}
           </span>{" "}
           จากผู้ใช้ทั้งหมด{" "}
-          <span className="text-[#FE4519] font-semibold">{totalUser}</span>{" "}คน
+          <span className="text-[#FE4519] font-semibold text-3xl">{totalUser}</span>{" "}คน
           ด้วยคาร์บอนรวม{" "}
-          <span className="text-green-600 font-semibold">
+          <span className="text-green-600 font-semibold text-3xl">
             {currentUserRank.totalCarbon} kg
           </span>
         </motion.p>

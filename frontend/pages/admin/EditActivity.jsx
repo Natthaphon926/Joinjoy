@@ -7,7 +7,7 @@ const EditActivity = () => {
   const { id } = useParams();
 
   return (
-    <div className="p-10 bg-white rounded-md">
+    <div className="min-h-screen overflow-y-auto p-5 md:p-10 bg-white rounded-md">
       <h1 className="text-3xl font-semibold text-[#0070CC] mb-5">แก้ไขกิจกรรม</h1>
       <ActivityForm mode="edit" activityID={id} token={token} />
     </div>
